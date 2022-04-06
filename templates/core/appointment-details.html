@@ -1,0 +1,33 @@
+{% extends 'base/base.html' %}
+{% block main-content %}
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+            <br><br>
+    <h3>Your Appointment</h3>
+        {{ reviewd }}
+        <br><br>
+    <div>
+        <h4>Where: {{ appo.venue }}</h4>
+        <p>Treatment: {{ appo.service }}</p>
+        <p>Date: {{ appo.date }}</p>
+        <p>Time: {{ appo.time }}</p>
+        <a href="{% url 'show delete appointment' appo.pk %}" class="btn btn-success">Delete from list</a>
+        {% if reviewd %}
+
+        {% else %}
+        <a href="{% url 'show add review' appo.pk %}" class="btn btn-success">Add Review</a>
+        {% endif %}
+    </div>
+
+    {% endblock %}
+
+    </div>
+    </div>
+    </div>
+    <div class="col-md-8">
+
+    </div>
+</section>

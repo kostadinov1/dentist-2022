@@ -1,0 +1,17 @@
+{% extends 'base/base.html' %}
+{% block main-content %}
+
+<div class="container my-container">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <h3>Edit Your Profile Here</h3>
+            <form  method="post" action="{% url 'show edit profile' request.user.id %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form }}
+                <button class="btn btn-success" type="submit">Save</button>
+            </form>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+{% endblock %}

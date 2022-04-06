@@ -1,0 +1,29 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block main-content %}
+    <br><br><br>
+
+    {% if messages %}
+        <ul class="messages text-center">
+            {% for message in messages %}
+                <h2>{{ message }}</h2>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <article>
+        <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+            <form method="post" action="{% url 'show profile create' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit" class="btn btn-outline-success">Create</button>
+            </form>
+        </div>
+        <div class="col-lg-4"></div>
+
+        </div>
+    </article>
+
+
+{% endblock %}

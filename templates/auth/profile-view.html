@@ -1,0 +1,112 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block main-content %}
+      <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>Cheatsheet · Bootstrap v5.1</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/cheatsheet/">
+
+
+
+    <!-- Bootstrap core CSS -->
+<link href="{% static "/assets/dist/css/bootstrap.min.css" %}" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="{% static "css/cheatsheet.css" %}" rel="stylesheet">
+  </head>
+
+<section>
+    <div class="container">
+    <div class="row">
+        <div class="col-md-8">
+<article class="my-3" id="card">
+      <div class="bd-heading sticky-xl-top align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
+        <h3>Your Profile</h3>
+      </div>
+      <div>
+        <div class="bd-example">
+        <div class="row  row-cols-1 row-cols-md-2 g-4">
+          <div class="col-lg-10">
+            <div class="card">
+                {% if profile.image.url %}
+                <img src="{{ profile.image.url }}" alt="No Image Added Yet"/>
+                    {% else %}
+                    <div >
+            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                 alt="Profile Image">
+        </div>
+                {% endif %}
+              <div class="card-body">
+                <h5 class="card-title">Profile Info</h5>
+                <p>{{ profile }}</p>
+                <p>{{ user.email }}</p>
+                <p>{{ profile.dob }}</p>
+                <a href="{% url 'show edit profile' request.user.id %}" class="btn btn-success">Edit</a>
+                <a href="{% url 'show delete profile' request.user.id %}" class="btn btn-success">Delete</a>
+                <a href="{% url 'show change password' %}" class="btn btn-success">Change Password</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </article>
+        <br>
+            <div class="col-lg-10">
+            <div class="bd-heading sticky-xl-top align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
+        <h3>Your Reviews</h3>
+                        <br>
+</div>
+            {% for review in reviews %}
+                <h3>{{ review.title }}</h3>
+                <p>{{ review.body }}</p>
+                <a href="{% url 'show edit review' review.id %}" class="btn btn-success">Edit</a>
+                <a href="{% url 'show delete review' review.id %}" class="btn btn-success">Delete</a>
+            {% endfor %}
+        </div>
+
+        </div>
+        <div class="col-md-4">
+                <br>
+            <div class="col-lg-10">
+                <br>
+                <div style="text-align: center">
+                <a href="{% url 'show book appointment' %}" class="btn btn-success ">Book Your Next Appointment Now</a>
+                </div>
+                <br><br>
+        <h3 class="align-self-center">Your Appointments</h3>
+                        <br>
+
+            </div>
+            {% for appo in appointments %}
+                <h4>Where: {{ appo.venue }}</h4>
+                <p>Treatment: {{ appo.service }}</p>
+                <p>Date: {{ appo.date }}</p>
+                <p>Time: {{ appo.time }}</p>
+                <a href="{% url 'show appointment details' appo.pk %}" class="btn btn-success">Show Details</a>
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+{% endblock %}

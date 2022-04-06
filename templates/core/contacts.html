@@ -1,0 +1,35 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block main-content %}
+
+        <script src="{% static 'css/contacts.css'%}"></script>
+{#    <script src="{% static 'css/map-container.css'%}"></script>#}
+
+
+
+    <section class="container mt-xl-4 mb-4">
+
+    <div class="d-flex justify-content-center pt-4">
+        <h2 class="font-weight-bold">Get in touch!</h2>
+    </div>
+    <div class="d-flex justify-content-center text-muted">Contact us for a quote, help to join the team.</div>
+    <div class="d-md-flex flex-md-row justify-content-center py-4">
+        <div class="d-md-flex flex-md-column contact px-4">
+            <div class="d-md-flex justify-content-center icon py-2"> <span class="fa fa-map-marker"></span> <span class="mobile-info text-dark p-2 pb-3">102 street 2714 Don</span> </div>
+            <div class="contact-info">102 street 2714 Don</div>
+        </div>
+        <div class="d-flex flex-column contact px-4">
+            <div class="d-md-flex justify-content-center icon py-2"> <span class="fa fa-phone"></span> <span class="mobile-info text-dark p-2 pb-3">+02 1234 567</span> </div>
+            <div class="contact-info">+02 1234 567</div>
+        </div>
+        <div class="d-flex flex-column contact px-4">
+            <div class="d-md-flex justify-content-center icon py-2"> <span class="fa fa-envelope"></span> <span class="mobile-info text-dark p-2 pb-3">hello@flowbase.com</span> </div>
+            <div class="contact-info">hello@flowbase.com</div>
+
+      </div>
+    </div>
+<!--Google Maps-->
+ <div class="mapouter"><div class="gmap_canvas"><iframe width="100%" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=Varna,%20Bulgaria&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://www.whatismyip-address.com/divi-discount/"></a><br><style>.mapouter{position:relative;text-align:right;height:500px;width:1080px;}</style><a href="https://www.embedgooglemap.net">map widget for website</a><style>.gmap_canvas {overflow:hidden;background:none!important;height:500px;width:1080px;}</style></div></div>
+
+    </section>
+{% endblock %}

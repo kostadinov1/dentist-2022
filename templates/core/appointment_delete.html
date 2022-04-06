@@ -1,0 +1,13 @@
+{% extends 'base/base.html' %}
+{% block main-content %}
+
+<div>
+    <form method="post" action="{% url 'show delete appointment' appoint.id %}">
+        {% csrf_token %}
+        {{ form }}
+    <button class="btn btn-primary mt-2" type="submit">Delete Appointment</button>
+
+    </form>
+</div>
+
+{% endblock %}
