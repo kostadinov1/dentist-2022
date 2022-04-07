@@ -1,7 +1,7 @@
 import os.path
 from pathlib import Path
 
-import cloudinary as cloudinary
+import cloudinary
 import decouple
 from decouple import config
 
@@ -18,7 +18,7 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', '127.0.0.1').split(' ')
 
 
 INSTALLED_APPS = [
-    # # 'cloudinary_storage',
+    # 'cloudinary_storage',
     # 'django.contrib.staticfiles',
     # 'cloudinary',
     'django.contrib.admin',
@@ -34,8 +34,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -118,16 +119,12 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR_2, 'static'),
 )
 
-# STATIC_URL = '/static/'
-# STATIC_ROOT = BASE_DIR / 'static'
-# STATICFILES_DIRS = (
-#     BASE_DIR / 'staticfiles',
-# )
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_ROOT = BASE_DIR / 'mediafiles'
 MEDIA_URL = '/media/'
 
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 MEDIA_DIRS = [
     BASE_DIR / 'mediafiles'
 ]
@@ -146,8 +143,8 @@ EMAIL_PORT = config('EMAIL_PORT')
 DEFAULT_FROM_EMAIL = 'from dentist-website project'
 
 
-# cloudinary.config(
-#     cloud_name = decouple.config("CLOUDINARY_CLOUD_NAME"),
-#     api_key = decouple.config("CLOUDINARY_API_KEY"),
-#     api_secret = decouple.config("CLOUDINARY_API_SECRET")
-# )
+cloudinary.config(
+    cloud_name = config("CLOUDINARY_CLOUD_NAME"),
+    api_key = config("CLOUDINARY_API_KEY"),
+    api_secret = config("CLOUDINARY_API_SECRET")
+)

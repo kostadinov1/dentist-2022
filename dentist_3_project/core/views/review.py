@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
@@ -5,6 +6,7 @@ from dentist_3_project.core.forms import ReviewForm, EditReviewForm, DeleteRevie
 from dentist_3_project.core.models import Review, Appointment
 
 
+@login_required
 def build_add_review(request, pk):
     appointment = Appointment.objects.get(pk=pk)
     if request.method == 'POST':
@@ -27,6 +29,7 @@ def build_add_review(request, pk):
     return render(request, 'core/review-add.html', context)
 
 
+@login_required
 def build_edit_review(request, pk):
     rev = Review.objects.get(pk=pk)
     if request.method == 'POST':
@@ -46,6 +49,7 @@ def build_edit_review(request, pk):
     return render(request, 'core/review-edit.html', context)
 
 
+@login_required
 def build_delete_review(request, pk):
     rev = Review.objects.get(pk=pk)
     if request.method == 'POST':

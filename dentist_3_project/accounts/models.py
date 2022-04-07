@@ -1,3 +1,4 @@
+from cloudinary import models as cloudinary_models
 from django.contrib.auth import models as auth_models
 from django.db import models
 from dentist_3_project.accounts.managers import AppUsersManager
@@ -32,7 +33,7 @@ class Profile(models.Model):
     dob = models.DateField(null=True, blank=True,)
     gender = models.CharField(max_length=30, choices=GENDERS, null=True, blank=True)
     phone = models.CharField(max_length=10, unique=True)
-    image = models.ImageField(null=True, blank=True) #, upload_to='mediafiles/images'
+    image = cloudinary_models.CloudinaryField('image')
     user = models.OneToOneField(AppUser, on_delete=models.CASCADE, primary_key=True,)
 
     def __str__(self):

@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import login, logout, get_user_model
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordChangeDoneView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -14,7 +15,7 @@ from dentist_3_project.core.models import Review, Appointment
 UserModel = get_user_model()
 
 
-class ProfileDetailsView(DetailView):
+class ProfileDetailsView(DetailView, LoginRequiredMixin):
     model = Profile
     template_name = 'auth/profile-view.html'
     context_object_name = 'profile'
@@ -40,7 +41,7 @@ class CreateUserProfileView(LoginRequiredMixin, SuccessMessageMixin, CreateView)
         return super().form_valid(form)
 
 
-class EditProfileView(UpdateView):
+class EditProfileView(UpdateView, LoginRequiredMixin):
     model = Profile
     template_name = 'auth/profile-edit.html'
     form_class = EditProfileForm
@@ -49,7 +50,7 @@ class EditProfileView(UpdateView):
         return reverse_lazy('show profile view', kwargs={'pk': self.object.user.id})
 
 
-class DeleteProfileView(DeleteView):
+class DeleteProfileView(DeleteView, LoginRequiredMixin):
     model = AppUser
     template_name = 'auth/profile-delete.html'
     success_url = reverse_lazy('show index')
@@ -78,13 +79,14 @@ class UserLoginView(LoginView):
         return reverse_lazy('show index')
 
 
+@login_required
 def build_logout(request):
     logout(request)
-    messages.info(request, 'LOG OUT SUCCESSFUL')
+    # messages.info(request, 'LOG OUT SUCCESSFUL')
     return redirect('show index')
 
 
-class ChangePasswordView(PasswordChangeView):
+class ChangePasswordView(PasswordChangeView, LoginRequiredMixin):
     success_url = reverse_lazy('show sign in')
 
 

@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -8,6 +9,7 @@ from dentist_3_project.core.forms import AppointmentForm, DeleteAppointmentForm
 from dentist_3_project.core.models import Appointment, Review
 
 
+@login_required
 def build_book_appointment(request):
     user = request.user
     try:
@@ -45,6 +47,7 @@ def build_book_appointment(request):
     return render(request, 'core/appointment.html', context)
 
 
+@login_required
 def build_appointment_details(request, pk):
     appo = Appointment.objects.get(pk=pk)
     reviewed = Review.objects.filter(appointment=appo)
@@ -58,7 +61,7 @@ def build_appointment_details(request, pk):
     return render(request, 'core/appointment-details.html', context)
 
 
-
+@login_required
 def build_delete_appointment(request, pk):
     appoint = Appointment.objects.get(pk=pk)
     if request.method == 'POST':
