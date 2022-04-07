@@ -15,3 +15,9 @@ That was fixed by installing dj-database-urls and specifying variables in settin
     DATABASE_URL = os.environ['DATABASE_URL']
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 I guess that is because my PostgreSQL is installed on Docker. Not absolutely sure about that one.
+
+Fourth. Server error 500 when in deployment DEBUG=False. Fixed by changing STATICFILES_STORAGE
+back to the default django one:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+Resolution taken from:
+https://stackoverflow.com/questions/44160666/valueerror-missing-staticfiles-manifest-entry-for-favicon-ico/51060143#51060143
