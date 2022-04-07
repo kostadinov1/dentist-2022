@@ -18,9 +18,6 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', '127.0.0.1').split(' ')
 
 
 INSTALLED_APPS = [
-    # 'cloudinary_storage',
-    # 'django.contrib.staticfiles',
-    # 'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -124,7 +121,6 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 MEDIA_ROOT = BASE_DIR / 'mediafiles'
 MEDIA_URL = '/media/'
 
-# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 MEDIA_DIRS = [
     BASE_DIR / 'mediafiles'
 ]
