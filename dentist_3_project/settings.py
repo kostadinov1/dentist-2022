@@ -1,8 +1,9 @@
 import os.path
 from pathlib import Path
-
+import dj_database_url
+import os
+import psycopg2
 import cloudinary
-import decouple
 from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -144,3 +145,12 @@ cloudinary.config(
     api_key = config("CLOUDINARY_API_KEY"),
     api_secret = config("CLOUDINARY_API_SECRET")
 )
+
+
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+
+
+
+DATABASE_URL = os.environ['DATABASE_URL']
+
+conn = psycopg2.connect(DATABASE_URL, sslmode='require')
