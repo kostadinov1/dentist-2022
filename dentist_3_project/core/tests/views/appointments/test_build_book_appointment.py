@@ -35,17 +35,16 @@ class TestBuildAppointment(TestCase):
                                          dob='1988-12-12',
                                          gender='male',
                                          phone='12325345',
-                                         image= self.IMAGE,
                                          user=user
                                          )
         return profile
 
 
-    def test_appointment_create_in_database(self):
+    def test_appointment_create_in_successful(self):
         user = UserModel.objects.create_user(email='testuser@mail.com', password='7890plioK')
-        self.client.login(email='testuser@mail.com', password='7890plioK')
+        logged_in = self.client.login(email='testuser@mail.com', password='7890plioK')
         service = self.__create_service()
-
+        profile = self.__create_profile(user)
         appointment_data = {'venue': 'Varna',
                         'date': '2022-12-12',
                         'time': '14:00',
@@ -54,10 +53,9 @@ class TestBuildAppointment(TestCase):
                         'user': user,
                         'service': service
                         }
-        response = self.client.post(reverse('show book appointment'), data=appointment_data)
-        print(response.status_code)
+        response = self.client.post(path=reverse('show book appointment'), data=appointment_data)
         appointment = Appointment.objects.all()
-
+        print(appointment, response.status_code)
         self.assertIsNotNone(appointment)
 
 
@@ -66,9 +64,9 @@ class TestBuildAppointment(TestCase):
         self.client.login(email='testuser@mail.com', password='7890plioK')
         service = self.__create_service()
         appointment = self.__create_appointment(service, user)
-        response = self.client.post(reverse('show delete appointment', kwargs={'pk': appointment.id}))
+        response = self.client.post(path=reverse('show delete appointment', kwargs={'pk': appointment.id}))
         appointment = Appointment.objects.first()
-        print(appointment)
+        print(appointment, response.status_code)
         self.assertIsNone(appointment)
 
     def test_book_appointment__send_email_successful(self):

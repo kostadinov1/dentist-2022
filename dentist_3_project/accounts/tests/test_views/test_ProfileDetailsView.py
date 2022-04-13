@@ -88,12 +88,10 @@ class TestProfileDetailsView(TestCase):
         appointment = self.__create_appointment(service, user)
         profile = self.__create_profile(user)
 
-
-        appointment.full_clean()
-        appointment.save()
         review = self.__create_review(appointment, user)
 
         response = self.client.get(reverse('show profile view', kwargs={'pk': user.id}))
+        print(response.context['reviews'])
         self.assertIsNotNone(response.context['reviews'])
 
     def test_profile_view_show_no_reviews(self):
