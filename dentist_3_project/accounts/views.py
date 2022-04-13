@@ -29,12 +29,11 @@ class ProfileDetailsView(DetailView, LoginRequiredMixin):
         return context
 
 
-class CreateUserProfileView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class CreateUserProfileView(LoginRequiredMixin, CreateView):
     login_url = reverse_lazy('show index')
     form_class = CreateProfileForm
     template_name = 'auth/profile-create.html'
     success_url = reverse_lazy('show index')
-    success_message = 'New user profile has been created'
 
     def form_valid(self, form):
         form.instance.user = self.request.user

@@ -33,7 +33,7 @@ class Profile(models.Model):
     dob = models.DateField(null=True, blank=True,)
     gender = models.CharField(max_length=30, choices=GENDERS, null=True, blank=True)
     phone = models.CharField(max_length=10, unique=True)
-    image = cloudinary_models.CloudinaryField('image')
+    image = cloudinary_models.CloudinaryField('image', blank=True, null=True)
     user = models.OneToOneField(AppUser, on_delete=models.CASCADE, primary_key=True,)
 
     def __str__(self):

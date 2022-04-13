@@ -2,9 +2,6 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from django.views.generic import DeleteView
-
 from dentist_3_project.core.forms import AppointmentForm, DeleteAppointmentForm
 from dentist_3_project.core.models import Appointment, Review
 
@@ -35,7 +32,6 @@ def build_book_appointment(request):
             send_mail(f'Appointment from {name} at {date}{time} at {venue} with phone number: {phone} and email: {email}',
                       message, f'{email}', ['evgenikostadinov1987@gmail.com'],)
             form.save()
-#            messages.success(request, 'appointment added')
             return redirect('show profile view', user.id)
     else:
         form = AppointmentForm(instance=user)

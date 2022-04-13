@@ -1,80 +1,75 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+from django.urls import reverse
 
+from dentist_3_project.accounts.models import Profile
 from dentist_3_project.core.models import Appointment
 from dentist_3_project.services.models import Service
 
 UserModel = get_user_model()
 
 class TestBuildAppointment(TestCase):
-    pass
-    VALID_USER_DATA = {
-        'email': 'evga@mail.com',
-        'password': '7890plioK'
-    }
-    VALID_PROFILE_DATA = {
-        'name': 'Evga',
-        'phone': '0987787234'
-    }
-    VALID_SERVICE_DATA = {
-        'treatment': 'Teeth Whitening',
-        'category': 'Preventative',
-        'duration': '60',
-        'price': '50'
-    }
 
-    VALID_APPOINTMENT_DATA = {
-        'venue': 'Balchik',
-        'date': '2022-01-11',
-        'time': '14:00:00',
-        'message': 'I want to book appointment please doc!!',
 
-    }
+    def __create_service(self):
+        service = Service.objects.create(treatment='Teeth Whitening',
+                                         category='Preventative',
+                                         duration='60',
+                                         price='50')
+        return service
+
+    def __create_appointment(self, service, user):
+        appointment = Appointment.objects.create(
+            venue='Varna',
+            date='2022-12-12',
+            time='14:00',
+            message='I want an appointment please',
+            user=user,
+            service=service
+        )
+        return appointment
+
+    def __create_profile(self, user):
+        profile = Profile.objects.create(first_name='evge',
+                                         last_name='kosta',
+                                         dob='1988-12-12',
+                                         gender='male',
+                                         phone='12325345',
+                                         image= self.IMAGE,
+                                         user=user
+                                         )
+        return profile
+
 
     def test_appointment_create_in_database(self):
-        user = UserModel.objects.create(email='evga@mail.com',
-                                        password='7890plioK')
+        user = UserModel.objects.create_user(email='testuser@mail.com', password='7890plioK')
+        self.client.login(email='testuser@mail.com', password='7890plioK')
+        service = self.__create_service()
 
-        service = Service.objects.create(treatment='Teeth Whitening',
-                                         category='Preventative',
-                                         duration='60',
-                                         price='50')
+        appointment_data = {'venue': 'Varna',
+                        'date': '2022-12-12',
+                        'time': '14:00',
+                        'message': 'I want an appointment please',
+                        'phone': '123543534',
+                        'user': user,
+                        'service': service
+                        }
+        response = self.client.post(reverse('show book appointment'), data=appointment_data)
+        print(response.status_code)
+        appointment = Appointment.objects.all()
 
-        appointment = Appointment.objects.create(
-            venue=self.VALID_APPOINTMENT_DATA['venue'],
-            date=self.VALID_APPOINTMENT_DATA['date'],
-            time=self.VALID_APPOINTMENT_DATA['time'],
-            message=self.VALID_APPOINTMENT_DATA['message'],
-            user=user,
-            service=service
+        self.assertIsNotNone(appointment)
 
-        )
-        appointment.full_clean()
-        appointment.save()
-        self.assertIsNotNone(Appointment.objects.all()[0])
 
     def test_appointment_deletes_in_database(self):
-        user = UserModel.objects.create(email='evga@mail.com',
-                                        password='7890plioK')
-
-        service = Service.objects.create(treatment='Teeth Whitening',
-                                         category='Preventative',
-                                         duration='60',
-                                         price='50')
-
-        appointment = Appointment.objects.create(
-            venue=self.VALID_APPOINTMENT_DATA['venue'],
-            date=self.VALID_APPOINTMENT_DATA['date'],
-            time=self.VALID_APPOINTMENT_DATA['time'],
-            message=self.VALID_APPOINTMENT_DATA['message'],
-            user=user,
-            service=service
-
-        )
-        appointment.full_clean()
-        appointment.save()
-        appointment.delete()
-        self.assertEqual(Appointment.objects.all().count(), 0)
+        user = UserModel.objects.create_user(email='testuser@mail.com', password='7890plioK')
+        self.client.login(email='testuser@mail.com', password='7890plioK')
+        service = self.__create_service()
+        appointment = self.__create_appointment(service, user)
+        response = self.client.post(reverse('show delete appointment', kwargs={'pk': appointment.id}))
+        appointment = Appointment.objects.first()
+        print(appointment)
+        self.assertIsNone(appointment)
 
     def test_book_appointment__send_email_successful(self):
         pass

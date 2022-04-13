@@ -66,11 +66,13 @@
                 <li class="nav-item">
                 <a class="nav-link" href="{% url 'show book appointment' %}">Book Now</a>
                 </li>
-                    {% else %}
+                {% elif user.is_anonymous %}
+                <a class="nav-link" href="{% url 'show sign up' %}">Book Now</a>
+                {% else %}
                     <li class="nav-item">
                 <a class="nav-link" href="{% url 'show profile create' %}">Book Now</a>
                 </li>
-        {% endif %}
+            {% endif %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'show blog' %}">Blog</a>
           </li>
