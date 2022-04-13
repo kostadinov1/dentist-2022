@@ -38,6 +38,6 @@ class Review(models.Model):
         return f'{self.user.profile}'
 
     def profile_pic(self):
-        return f'{self.user.profile.image}'
+        return f'{self.user.profile.image.url}'
 
 
