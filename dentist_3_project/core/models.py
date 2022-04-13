@@ -34,5 +34,10 @@ class Review(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE, null=True, blank=True)
 
+    def user_email(self):
+        return f'{self.user.profile}'
+
+    def profile_pic(self):
+        return f'{self.user.profile.image}'
 
 

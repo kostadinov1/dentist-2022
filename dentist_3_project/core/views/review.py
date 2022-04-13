@@ -1,9 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.views.generic import ListView
 
 from dentist_3_project.core.forms import ReviewForm, EditReviewForm, DeleteReviewForm
 from dentist_3_project.core.models import Review, Appointment
+
+class AllReviewsView(ListView):
+    model = Review
+    template_name = 'core/reviews-all.html'
 
 
 @login_required
