@@ -16,9 +16,11 @@ class TestProfileDetailsView(TestCase):
 
     def __create_service(self):
         service = Service.objects.create(treatment='Teeth Whitening',
-                                         category='Preventative',
+                                         category='1',
                                          duration='60',
                                          price='50')
+        service.full_clean()
+        service.save()
         return service
 
     def __create_appointment(self, service, user):
@@ -30,17 +32,20 @@ class TestProfileDetailsView(TestCase):
             user=user,
             service=service
         )
+        appointment.full_clean()
+        appointment.save()
         return appointment
 
     def __create_profile(self, user):
         profile = Profile.objects.create(first_name='evge',
                                          last_name='kosta',
                                          dob='1988-12-12',
-                                         gender='male',
+                                         gender='Male',
                                          phone='12325345',
-                                         image= self.IMAGE,
                                          user=user
                                          )
+        profile.full_clean()
+        profile.save()
         return profile
 
     def __create_review(self, appointment, user):
@@ -48,6 +53,8 @@ class TestProfileDetailsView(TestCase):
                                        body='I am quite satisfied with the Docs skills',
                                        user=user,
                                        appointment=appointment)
+        review.full_clean()
+        review.save()
         return review
 
     def test__open_non_existing_profile_expect_404(self):

@@ -1,3 +1,4 @@
+from django.db.models import signals
 from django.urls import path, include
 
 from dentist_3_project.core.views.appointment import build_book_appointment, build_delete_appointment, \
@@ -16,7 +17,5 @@ urlpatterns = [
     path('edit-review/<int:pk>/', build_edit_review, name='show edit review'),
     path('delete-review/<int:pk>/', build_delete_review, name='show delete review'),
     path('all-reviews/', AllReviewsView.as_view(), name='show all reviews'),
-
-
-
 ]
+

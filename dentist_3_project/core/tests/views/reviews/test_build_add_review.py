@@ -80,7 +80,7 @@ class TestAddReview(TestCase):
                        'appointment': appointment}
 
         response = self.client.post(path=reverse('show edit review', kwargs={'pk': review.id}), data=review_data)
-        edited_review = Review.objects.first()
+        edited_review = Review.objects.get()
         self.assertNotEqual(review.title, edited_review.title)
 
     # this one returns status code 200 , but it does not delete in database. why?
@@ -91,7 +91,7 @@ class TestAddReview(TestCase):
         appointment = self.__create_appointment(service, user)
         review = self.__create_review(appointment, user)
 
-        response = self.client.delete(reverse('show delete review', kwargs={'pk': review.id}))
-        review = Review.objects.first()
+        response = self.client.post(reverse('show delete review', kwargs={'pk': review.id}))
+        review = Review.objects.get()
         print(review, response.status_code)
         self.assertIsNone(review)

@@ -55,7 +55,7 @@ class ProfileCreateViewTests(TestCase):
         self.assertEqual(profile.first_name, 'evgeni')
         self.assertEqual(profile.last_name, 'testov')
 
-    def test_create_profile__when_NOT_valid_expect_raises(self):
+    def test_create_profile__when_NOT_valid_expect_fails(self):
         user = UserModel.objects.create_user(email='evga@mail.com',
                                         password='7890plioK')
         self.client.login(email='evga@mail.com', password='7890plioK')
@@ -71,6 +71,7 @@ class ProfileCreateViewTests(TestCase):
         self.client.post(reverse('show profile create'), data=profile_info)
         profile = Profile.objects.first()
         print(profile)
+        self.assertIsNone(profile)
 
     def test_gets_correct_template_used(self):
         user = UserModel.objects.create_user(email='evga@mail.com',
@@ -95,7 +96,7 @@ class ProfileCreateViewTests(TestCase):
 
         profile_info = {'first_name': 'evgeni',
                         'last_name': 'testov',
-                         'dob': '1987-12-12',
+                        'dob': '1987-12-12',
                         'gender': 'Male',
                         'phone': '123543534',
 

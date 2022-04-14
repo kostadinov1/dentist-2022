@@ -3,6 +3,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from dentist_3_project.accounts.models import Profile
+from dentist_3_project.core.forms import AppointmentForm
 from dentist_3_project.core.models import Appointment
 from dentist_3_project.services.models import Service
 
@@ -23,8 +24,8 @@ class TestBuildAppointment(TestCase):
     def __create_appointment(self, service, user):
         appointment = Appointment.objects.create(
             venue='Varna',
-            date='2022-12-12',
             time='14:00',
+            date='2022-12-12',
             message='I want an appointment please',
             user=user,
             service=service
@@ -48,25 +49,22 @@ class TestBuildAppointment(TestCase):
 
     def test_appointment_create_is_successful(self):
         user = UserModel.objects.create_user(email='testuser@mail.com', password='7890plioK')
-        user.full_clean()
-        user.save()
+
         logged_in = self.client.login(email='testuser@mail.com', password='7890plioK')
         service = self.__create_service()
         profile = self.__create_profile(user)
 
-        appointment_data = {'venue': 'Varna',
-                            'date': '2022-12-12',
+        appointment_data = {'venue': '1',
                             'time': '14:00',
+                            'date': '2022-12-12',
                             'message': 'I want an appointment please',
-                            'phone': '123543534',
-                            'user': user,
+                            # 'user': user,
                             'service': service
                             }
-        response = self.client.post(reverse('show book appointment'), data=appointment_data)
+        response = self.client.post(path=reverse('show book appointment'), data=appointment_data)
 
         appointment = Appointment.objects.get()
         print(appointment, response.status_code)
-        self.assertEqual(response.status_code, 200)
         self.assertIsNotNone(appointment)
 
 
@@ -75,8 +73,9 @@ class TestBuildAppointment(TestCase):
         self.client.login(email='testuser@mail.com', password='7890plioK')
         service = self.__create_service()
         appointment = self.__create_appointment(service, user)
-        response = self.client.post(reverse('show delete appointment', kwargs={'pk': appointment.id}))
+        response = self.client.post(path=reverse('show delete appointment', kwargs={'pk': appointment.pk}))
         appointment = Appointment.objects.get()
+
         print(appointment, response.status_code, response)
         self.assertIsNone(appointment)
 
