@@ -1,6 +1,7 @@
 {% extends 'base/base.html' %}
 {% load static %}
-{% block main-content %}<!doctype html>
+{% block main-content %}
+
 <link href="{% static "/css/pricing.css" %}" rel="stylesheet">
 
 
@@ -20,7 +21,7 @@
     </div>
   </header>
 
-  <main><br><br>
+<br><br>
         <!-- Preventative Pricing  Table -->
       <h3>Preventative Services</h3>
         <table class="table">
@@ -84,6 +85,7 @@
 
             {% endfor %}
             </table>
+</div>
 {#        <p>This is some additional paragraph placeholder content. It's a slightly shorter version of the other highly repetitive body text used throughout.</p>#}
 
 {#    <div class="table-responsive">#}
@@ -139,7 +141,6 @@
 {#        </tbody>#}
 {#      </table>#}
 {#    </div>#}
-  </main>
 {##}
 {#  <footer class="pt-4 my-md-5 pt-md-5 border-top">#}
 {#    <div class="row">#}
@@ -178,6 +179,5 @@
 {#      </div>#}
 {#    </div>#}
 {#  </footer>#}
-</div>
 
 {% endblock %}

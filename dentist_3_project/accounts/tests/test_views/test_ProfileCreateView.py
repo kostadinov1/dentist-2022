@@ -3,8 +3,6 @@ from django.test import TestCase , Client
 from django.urls import reverse
 import tempfile
 
-
-
 from dentist_3_project.accounts.models import Profile
 
 UserModel = get_user_model()
@@ -22,6 +20,8 @@ class ProfileCreateViewTests(TestCase):
                                          image= self.IMAGE,
                                          user=user
                                          )
+        profile.full_clean()
+        profile.save()
         return profile
 
 
@@ -42,16 +42,67 @@ class ProfileCreateViewTests(TestCase):
 
         profile_info = {'first_name': 'evgeni',
                         'last_name': 'testov',
-                        'dob': '1987-12-12',
-                        'gender': 'male',
+                         'dob': '1987-12-12',
+                        'gender': 'Male',
                         'phone': '123543534',
+
                         'user': user
                         }
         self.client.post(reverse('show profile create'), data=profile_info)
         profile = Profile.objects.first()
         print(profile)
         self.assertIsNotNone(profile)
+        self.assertEqual(profile.first_name, 'evgeni')
+        self.assertEqual(profile.last_name, 'testov')
 
-    # test redirect
+    def test_create_profile__when_NOT_valid_expect_raises(self):
+        user = UserModel.objects.create_user(email='evga@mail.com',
+                                        password='7890plioK')
+        self.client.login(email='evga@mail.com', password='7890plioK')
+
+        profile_info = {'first_name': 'evgeni',
+                        'last_name': 'testo23v',
+                         'dob': '1987-12-12',
+                        'gender': 'Male',
+                        'phone': '123543534',
+
+                        'user': user
+                        }
+        self.client.post(reverse('show profile create'), data=profile_info)
+        profile = Profile.objects.first()
+        print(profile)
+
+    def test_gets_correct_template_used(self):
+        user = UserModel.objects.create_user(email='evga@mail.com',
+                                        password='7890plioK')
+        self.client.login(email='evga@mail.com', password='7890plioK')
+
+        profile_info = {'first_name': 'evgeni',
+                        'last_name': 'testov',
+                         'dob': '1987-12-12',
+                        'gender': 'Male',
+                        'phone': '123543534',
+
+                        'user': user
+                        }
+        self.client.post(reverse('show profile create'), data=profile_info)
+        self.assertTemplateUsed('auth/profile-create.html')
+
+    def test_when_all_valid_correct_redirect(self):
+        user = UserModel.objects.create_user(email='evga@mail.com',
+                                        password='7890plioK')
+        self.client.login(email='evga@mail.com', password='7890plioK')
+
+        profile_info = {'first_name': 'evgeni',
+                        'last_name': 'testov',
+                         'dob': '1987-12-12',
+                        'gender': 'Male',
+                        'phone': '123543534',
+
+                        'user': user
+                        }
+        response = self.client.post(reverse('show profile create'), data=profile_info)
+        self.assertRedirects(response, '/')
+
 
     # test status code
