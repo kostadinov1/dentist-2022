@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 
 class Service(models.Model):
     CATEGORIES = (('1', 'Preventative'),
@@ -25,15 +23,16 @@ class BlogPost(models.Model):
     def __str__(self):
         return f'{self.title}'
 
+
 '''
  --- TREATMENTS ---
 COSMETIC:
     Teeth whitening treatment, cleanings
     crowns,
-    teeth shaping,
-    tooth bonding.
+    teeth shaping
+    tooth bonding
     veneers
-    Gingivectomy (gum contouring)
+    gum contouring
 
 DIAGNOSTIC AND PREVENTATIVE: 
     sealants 

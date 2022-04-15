@@ -106,20 +106,8 @@ class UserRegistrationForm(UserCreationForm, BootstrapFormMixin):
         model = UserModel
         fields = ('email',)
 
-        # def clean_first_name(self):
-        #    return self.cleaned_data['first_name']
 
-        # if you want to have user with profile together
-        # def save(self, commit=True):
-        #     user = super().save(commit=commit)
-        #     profile = Profile(**self.cleaned_data(), user=user,)
-        #     if commit:
-        #         profile.save()
-        #     return user
-#
 class UserChangeAdminForm(UserChangeForm):
     class Meta:
         model = UserModel
         fields =('email',)
-        # fields = ['email', 'password', 'is_active', 'is_staff', 'is_superuser',
-        #           'groups', 'user_permissions', 'last_login']

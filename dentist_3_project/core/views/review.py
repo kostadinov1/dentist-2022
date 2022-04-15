@@ -1,7 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
-from django.contrib import messages
 from django.views.generic import ListView
 
 from dentist_3_project.core.forms import ReviewForm, EditReviewForm, DeleteReviewForm
@@ -12,6 +11,16 @@ class AllReviewsView(ListView, LoginRequiredMixin):
     model = Review
     template_name = 'core/reviews-all.html'
 
+    # TODO
+    # FIX THIS ---> this disables after click , but for all other reviews as well
+    # it needs to disable only for the single review that is clicked on
+    # it will work on a Details view
+    # def get_context_data(self, *, object_list=None, **kwargs):
+    #     context = super(AllReviewsView, self).get_context_data()
+    #
+    #     clicked = self.request.session['clicked'] = False
+    #     context['clicked'] = clicked
+    #     return context
 
 @login_required
 def build_add_review(request, pk):
@@ -79,6 +88,7 @@ def build_delete_review(request, pk):
 def like_review(request, pk):
     review = Review.objects.get(pk=pk)
     review.likes += 1
+    request.session['clicked'] = True
     review.save()
     return redirect('show all reviews')
 
@@ -86,6 +96,7 @@ def like_review(request, pk):
 def dislike_review(request, pk):
     review = Review.objects.get(pk=pk)
     review.dislikes += 1
+    request.session['clicked'] = True
     review.save()
 
     return redirect('show all reviews')

@@ -25,7 +25,7 @@ class AppointmentForm(forms.ModelForm, BootstrapFormMixin):
 
 class DeleteAppointmentForm(forms.ModelForm, BootstrapFormMixin):
     # venue = forms.ChoiceField(required=False)
-    # cannot disable service obj this way. how to disable instance obj of another model?
+    # ISSUE --> cannot disable service obj this way. how to disable instance obj of another model?
     def __init__(self,  *args, **kwargs):
         super().__init__(*args, **kwargs)
 

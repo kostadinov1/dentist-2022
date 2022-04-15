@@ -6,8 +6,6 @@ from dentist_3_project.services.models import Service
 UserModel = get_user_model()
 
 
-
-
 class Appointment(models.Model):
     VENUES = (('Balchik', 'Balchik'), ('Kavarna', 'Kavarna'), ('Varna', 'Varna'),)
 
@@ -19,13 +17,9 @@ class Appointment(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     service = models.ForeignKey(Service, on_delete=models.DO_NOTHING)
 
-    # @property
-    # def number_of_reviews(self):
-    #     return Appointment.objects.filter(reviews__user=self.user).count()
-
-
     def __str__(self):
         return f'Appointment at {self.venue} on {self.date} at {self.time}'
+
 
 class Review(models.Model):
     title = models.CharField(max_length=50)
