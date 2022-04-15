@@ -11,13 +11,13 @@ UserModel = get_user_model()
 class Appointment(models.Model):
     VENUES = (('Balchik', 'Balchik'), ('Kavarna', 'Kavarna'), ('Varna', 'Varna'),)
 
-    venue = models.CharField(max_length=20, choices=VENUES,)
+    venue = models.CharField(max_length=20, choices=VENUES)
     time = models.TimeField()
     date = models.DateField()
     date_added = models.DateTimeField(auto_now_add=True)
     message = models.TextField()
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    service = models.ForeignKey(Service, on_delete=models.DO_NOTHING,)
+    service = models.ForeignKey(Service, on_delete=models.DO_NOTHING)
 
     # @property
     # def number_of_reviews(self):
@@ -31,6 +31,8 @@ class Review(models.Model):
     title = models.CharField(max_length=50)
     body = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
+    likes = models.IntegerField(default=0)
+    dislikes = models.IntegerField(default=0)
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE, null=True, blank=True)
 
@@ -40,4 +42,8 @@ class Review(models.Model):
     def profile_pic(self):
         return f'{self.user.profile.image.url}'
 
+    def has_profile_pic(self):
+        if self.user.profile.image:
+            return True
+        return False
 

@@ -24,8 +24,13 @@ class AppointmentForm(forms.ModelForm, BootstrapFormMixin):
 
 
 class DeleteAppointmentForm(forms.ModelForm, BootstrapFormMixin):
+    # venue = forms.ChoiceField(required=False)
+    # cannot disable service obj this way. how to disable instance obj of another model?
     def __init__(self,  *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        # CANNOT DISABLE BECAUSE CHOICE FIELDS RAISES 'This field is required', why?
+        # self._init_disabled_fields()
         self._init_bootstrap_form_controls()
 
     def save(self):
@@ -34,7 +39,7 @@ class DeleteAppointmentForm(forms.ModelForm, BootstrapFormMixin):
 
     class Meta:
         model = Appointment
-        exclude = ('user', 'tagged_reviews')
+        exclude = ('user',)
 
 
 class ReviewForm(forms.ModelForm, BootstrapFormMixin):
@@ -45,7 +50,7 @@ class ReviewForm(forms.ModelForm, BootstrapFormMixin):
 
     class Meta:
         model = Review
-        exclude = ('user', 'appointment')
+        exclude = ('user', 'appointment', 'likes', 'dislikes')
 
 
 class EditReviewForm(forms.ModelForm, BootstrapFormMixin):
@@ -55,14 +60,16 @@ class EditReviewForm(forms.ModelForm, BootstrapFormMixin):
 
     class Meta:
         model = Review
-        exclude = ('user', 'appointment')
+        exclude = ('user', 'appointment', 'likes', 'dislikes')
 
 
-class DeleteReviewForm(forms.ModelForm, BootstrapFormMixin):
+class DeleteReviewForm(forms.ModelForm, BootstrapFormMixin, DisabledFieldsFormMixin):
+    title = forms.ChoiceField(required=False)
+    body = forms.ChoiceField(required=False)
     def __init__(self,  *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._init_bootstrap_form_controls()
-
+        self._init_disabled_fields()
 
     def save(self):
         self.instance.delete()
@@ -70,4 +77,4 @@ class DeleteReviewForm(forms.ModelForm, BootstrapFormMixin):
 
     class Meta:
         model = Review
-        exclude = ('user', 'appointment')
+        exclude = ('user', 'appointment', 'likes', 'dislikes')

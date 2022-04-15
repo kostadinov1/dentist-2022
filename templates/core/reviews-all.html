@@ -73,7 +73,13 @@
             {% for review in object_list %}
             <div class="card">
                 <div class="row d-flex">
+
+                    {% if not review.has_profile_pic %}
+                     <div class=""> <img src="{% static '/images/blank-profile-image.png' %}" width="200" height="200"> </div>
+                        {% else %}
                     <div class=""> <img src="{{ review.profile_pic }}" width="200" height="200"> </div>
+                    {% endif %}
+
                     <div class="d-flex flex-column">
                         <h3 class="mt-2 mb-0">{{ review.user_email}}</h3>
                         <div>
@@ -88,14 +94,30 @@
                     <h4 class="blue-text mt-3">"{{ review.title }}"</h4>
                     <p class="content">{{ review.body }}</p>
                 </div>
-                                    <div class="like mr-3 vote"> <img src="https://i.imgur.com/mHSQOaX.png"><span class="blue-text pl-2">20</span> </div>
-                    <div class="unlike vote"> <img src="https://i.imgur.com/bFBO3J7.png"><span class="text-muted pl-2">4</span> </div>
-                {% endfor %}
+
+                <!-- Like Button -->
+                {% if not request.user.id == review.user_id%}
+                    <div class="like mr-3 vote"><a href="{% url 'show like review' review.id %}"><img src="https://i.imgur.com/mHSQOaX.png"></a>
+                {% else %}
+
+                <div class="like mr-3 vote"><img src="https://i.imgur.com/mHSQOaX.png">
+                {% endif %}
+
+               <span class="blue-text pl-2">{{ review.likes }}</span> </div>
+
+                <!-- DisLike Button -->
+                {% if not request.user.id == review.user_id%}
+                <div class="unlike vote"><a href="{% url 'show dislike review' review.id %}"> <img src="https://i.imgur.com/bFBO3J7.png"></a>
+                {% else %}
+
+                <div class="unlike vote"><img src="https://i.imgur.com/bFBO3J7.png">
+
+                {% endif %}
+                <span class="text-muted pl-2">{{ review.dislikes }}</span> </div>
+
+            {% endfor %}
 
                 <!-- END REVIEWS -->
-
-{#                <div class="row text-left"> <img class="pic" src="https://i.imgur.com/kjcZcfv.jpg"> <img class="pic" src="https://i.imgur.com/SjBwAgs.jpg"> <img class="pic" src="https://i.imgur.com/IgHpsBh.jpg"> </div>#}
-{#                <div class="row text-left mt-4">#}
 
                 </div>
             </div>

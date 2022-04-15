@@ -37,7 +37,7 @@ class TestAddReview(TestCase):
         profile = Profile.objects.create(first_name='evge',
                                          last_name='kosta',
                                          dob='1988-12-12',
-                                         gender='male',
+                                         gender='Male',
                                          phone='12325345',
                                          user=user
                                          )
@@ -50,6 +50,8 @@ class TestAddReview(TestCase):
                                        body='I am quite satisfied with the Docs skills',
                                        user=user,
                                        appointment=appointment)
+        review.full_clean()
+        review.save()
         return review
 
 
@@ -83,15 +85,15 @@ class TestAddReview(TestCase):
         edited_review = Review.objects.get()
         self.assertNotEqual(review.title, edited_review.title)
 
-    # this one returns status code 200 , but it does not delete in database. why?
     def test_delete_review__deletes_review_successfully(self):
         service = self.__create_service()
         user = UserModel.objects.create_user(email='testuser@mail.com', password='7890plioK')
         logged_in = self.client.login(email='testuser@mail.com', password='7890plioK')
+        profile = self.__create_profile(user)
         appointment = self.__create_appointment(service, user)
         review = self.__create_review(appointment, user)
 
         response = self.client.post(reverse('show delete review', kwargs={'pk': review.id}))
-        review = Review.objects.get()
-        print(review, response.status_code)
-        self.assertIsNone(review)
+        check = Review.objects.all()
+        print(response.status_code)
+        self.assertEqual(len(check), 0)

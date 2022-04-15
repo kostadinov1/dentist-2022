@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views.generic import ListView
@@ -6,7 +7,8 @@ from django.views.generic import ListView
 from dentist_3_project.core.forms import ReviewForm, EditReviewForm, DeleteReviewForm
 from dentist_3_project.core.models import Review, Appointment
 
-class AllReviewsView(ListView):
+
+class AllReviewsView(ListView, LoginRequiredMixin):
     model = Review
     template_name = 'core/reviews-all.html'
 
@@ -72,3 +74,18 @@ def build_delete_review(request, pk):
     }
 
     return render(request, 'core/review-delete.html', context)
+
+
+def like_review(request, pk):
+    review = Review.objects.get(pk=pk)
+    review.likes += 1
+    review.save()
+    return redirect('show all reviews')
+
+
+def dislike_review(request, pk):
+    review = Review.objects.get(pk=pk)
+    review.dislikes += 1
+    review.save()
+
+    return redirect('show all reviews')

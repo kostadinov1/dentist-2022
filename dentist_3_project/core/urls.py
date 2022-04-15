@@ -1,10 +1,10 @@
-from django.db.models import signals
-from django.urls import path, include
+from django.urls import path
 
 from dentist_3_project.core.views.appointment import build_book_appointment, build_delete_appointment, \
     build_appointment_details
 from dentist_3_project.core.views.generic import HomeView, ContactsView
-from dentist_3_project.core.views.review import build_add_review, build_edit_review, build_delete_review, AllReviewsView
+from dentist_3_project.core.views.review import build_add_review, build_edit_review, build_delete_review, \
+    AllReviewsView, like_review, dislike_review
 
 urlpatterns = [
     path('', HomeView.as_view(), name='show index'),
@@ -17,5 +17,7 @@ urlpatterns = [
     path('edit-review/<int:pk>/', build_edit_review, name='show edit review'),
     path('delete-review/<int:pk>/', build_delete_review, name='show delete review'),
     path('all-reviews/', AllReviewsView.as_view(), name='show all reviews'),
+    path('like-review/<int:pk>/', like_review, name='show like review'),
+    path('dislike-review/<int:pk>/', dislike_review, name='show dislike review'),
 ]
 
