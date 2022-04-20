@@ -107,7 +107,7 @@
 
                 <!-- DisLike Button -->
                 {% if not request.user.id == review.user_id and not clicked%}
-                <div class="unlike vote"><a href="{% url 'show dislike review' review.id %}"> <img src="https://i.imgur.com/bFBO3J7.png"></a>
+                <div class="unlike vote"><a id="likeBtn" href="{% url 'show dislike review' review.id %}"> <img src="https://i.imgur.com/bFBO3J7.png"></a>
                 {% else %}
 
                 <div class="unlike vote"><img src="https://i.imgur.com/bFBO3J7.png">
@@ -125,4 +125,14 @@
     </div>
 </div>
 
+</div>
+
+{#<script>#}
+{#        document.getElementById("likeBtn").addEventListener("click", disableButton);#}
+{##}
+{#        function disableButton() {#}
+{#            document.getElementById('likeBtn').disabled = true;#}
+{#        }#}
+{##}
+{#</script>#}
 {% endblock %}
