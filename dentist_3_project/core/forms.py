@@ -23,14 +23,14 @@ class AppointmentForm(forms.ModelForm, BootstrapFormMixin):
         }
 
 
-class DeleteAppointmentForm(forms.ModelForm, BootstrapFormMixin):
+class DeleteAppointmentForm(forms.ModelForm, BootstrapFormMixin, DisabledFieldsFormMixin):
     # venue = forms.ChoiceField(required=False)
     # ISSUE --> cannot disable service obj this way. how to disable instance obj of another model?
     def __init__(self,  *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         # CANNOT DISABLE BECAUSE CHOICE FIELDS RAISES 'This field is required', why?
-        # self._init_disabled_fields()
+        self._init_disabled_fields()
         self._init_bootstrap_form_controls()
 
     def save(self):
@@ -77,4 +77,4 @@ class DeleteReviewForm(forms.ModelForm, BootstrapFormMixin, DisabledFieldsFormMi
 
     class Meta:
         model = Review
-        exclude = ('user', 'appointment', 'likes', 'dislikes')
+        exclude = ('user',  'likes', 'dislikes')

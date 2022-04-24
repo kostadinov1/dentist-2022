@@ -21,3 +21,4 @@ urlpatterns = [
     path('dislike-review/<int:pk>/', dislike_review, name='show dislike review'),
 ]
 
+# import common_tools.web.signals

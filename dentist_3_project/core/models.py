@@ -41,3 +41,4 @@ class Review(models.Model):
             return True
         return False
 
+# from signals import *

@@ -83,10 +83,11 @@ class EditProfileForm(forms.ModelForm, BootstrapFormMixin):
         }
 
 
-class DeleteProfileForm(forms.ModelForm, BootstrapFormMixin):
+class DeleteProfileForm(forms.ModelForm, BootstrapFormMixin, DisabledFieldsFormMixin):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._init_bootstrap_form_controls()
+        self._init_disabled_fields()
 
     def save(self, commit=True):
         self.instance.delete()
@@ -96,7 +97,7 @@ class DeleteProfileForm(forms.ModelForm, BootstrapFormMixin):
         model = AppUser
         fields = ()
 
-
+# can use Authentication Form here?
 class UserRegistrationForm(UserCreationForm, BootstrapFormMixin):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

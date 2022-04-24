@@ -13,6 +13,10 @@
         <p>Treatment: {{ appo.service }}</p>
         <p>Date: {{ appo.date }}</p>
         <p>Time: {{ appo.time }}</p>
+
+
+        
+        # TODO CHANGE <A></A> TAG TO BUTTON
         <a href="{% url 'show delete appointment' appo.pk %}" class="btn btn-success">Delete from list</a>
         {% if reviewd %}
 

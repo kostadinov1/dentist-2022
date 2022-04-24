@@ -12,7 +12,7 @@ class CustomUserAdmin(UserAdmin):
     add_form = UserRegistrationForm
     form = UserChangeAdminForm
     model = CustomUserModel
-    list_display = ('email', 'is_staff', 'is_active','is_superuser'  )
+    list_display = ('email', 'is_staff', 'is_active','is_superuser')
     list_filter = ('email', 'is_staff', 'is_active',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
