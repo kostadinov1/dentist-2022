@@ -14,6 +14,7 @@ class Appointment(models.Model):
     date = models.DateField()
     date_added = models.DateTimeField(auto_now_add=True)
     message = models.TextField()
+    # has_booking = models.BooleanField(default=False)
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     service = models.ForeignKey(Service, on_delete=models.DO_NOTHING)
 
